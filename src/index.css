@@ -18,11 +18,18 @@ body {
   align-items: flex-end;
 }
 
-input {
-  width: 420px;
+input[type="text"] {
   height: 40px;
   font-size: 20px;
   text-align: right;
+}
+
+input.uuid-result {
+  width: 420px;
+}
+
+input.uuid-num {
+  width: 50px;
 }
 
 a {
