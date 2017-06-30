@@ -6,48 +6,79 @@ class App extends Component {
     super(props);
 
     this.state = {
-      numberUUIDs: 1
+      uuids: [v4()]
     };
 
     this.textInputs = [];
 
     this.selectInput = this.selectInput.bind(this);
     this.numChanged = this.numChanged.bind(this);
+    this.handleRefresh = this.handleRefresh.bind(this);
   }
   selectInput(index) {
     this.textInputs[index].select();
   }
 
   numChanged(e) {
-    this.setState({
-      numberUUIDs: e.target.value
-    })
+    const targetValue = e.target.value;
+
+    if (e.target.value < this.state.uuids.length) {
+      this.setState((state) => {
+        let reduceBy = state.uuids.length - targetValue;
+        //reduceBy = reduceBy <= state.uuids.length ? reduceBy : state.uuids.length; //???
+        return {
+          uuids: state.uuids.slice(0, -reduceBy)
+        };
+      });
+    } else {
+      this.setState((state) => {
+        let increaseBy = targetValue - state.uuids.length;
+        //increaseBy = (increaseBy + state.uuids.length >= 10) ? 10 - state.uuids.length : increaseBy; //???
+        const tempArr = Array(increaseBy).fill('');
+        return {
+          uuids: [
+            ...state.uuids,
+            ...tempArr.map(() => v4()),
+          ]
+        };
+      });
+    }
+  }
+
+  handleRefresh() {
+    this.setState((state) => {
+      return {
+        uuids: state.uuids.map(uuid => v4())
+      }
+    });
   }
   
   render() {
-    const mapArray = new Array(parseInt(this.state.numberUUIDs, 10)).fill("");
     return (
       <div id="form-wrapper">
          <div>
           <input 
             className="uuid-num" 
             type="number"
-            value={this.state.numberUUIDs}
+            min="0"
+            max="25"
+            value={this.state.uuids.length}
             onChange={this.numChanged} 
           />
-          <a href="/">refresh</a>
+          <button onClick={this.handleRefresh}>refresh</button>
         </div>
 
         {
-          mapArray.map((item, idx) => {
+          this.state.uuids.map((uuid, index) => {
             return <input 
               type="text" 
+              key={uuid}
               className="uuid-result"
-              value={v4()}
+              value={uuid}
               spellCheck="false"
               readOnly="true"
-              ref={(input) => {this.textInputs[idx] = input; }}
-              onClick={() => { this.selectInput(idx) }}  />
+              ref={(input) => {this.textInputs[index] = input; }}
+              onClick={() => { this.selectInput(index) }}  />
           })
         }
       </div>
