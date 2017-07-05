@@ -5,8 +5,10 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    const INITIAL_SIZE = 5;
+
     this.state = {
-      uuids: [v4(), v4(), v4(), v4(), v4()]
+      uuids: new Array(INITIAL_SIZE).fill().map(() => v4())
     };
 
     this.textInputs = [];
