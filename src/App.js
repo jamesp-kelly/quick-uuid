@@ -100,57 +100,6 @@ class App extends Component {
       </div>
     )
   }
-  
-  rendedr() {
-    return (
-      <div>
-         <div className="header">
-          <div className="jumbotron">
-            <div className="container">
-              <h1>Quick UUID</h1>
-            </div>
-          </div>
-          <form className="form-inline" onSubmit={(e) => e.preventDefault()}>
-            <div className="form-group">
-              <input 
-                className="uuid-num form-control col-2" 
-                type="number"
-                min="1"
-                max="25"
-                value={this.state.uuids.length}
-                onChange={this.numChanged} 
-              />
-              <button 
-                onClick={this.handleRefresh}
-                className="btn btn-default">
-                <i className="fa fa-refresh" aria-hidden="true"></i>
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <div className="book-list container">
-          {
-            this.state.uuids.map((uuid, index) => {
-              return (
-                <div className>
-                  <input 
-                    type="text" 
-                    key={uuid}
-                    className="uuid-result"
-                    value={uuid}
-                    spellCheck="false"
-                    readOnly="true"
-                    ref={(input) => {this.textInputs[index] = input; }}
-                    onClick={() => { this.selectInput(index) }}  />
-                </div>
-              );
-            })
-          }
-        </div>
-      </div>
-    )
-  }
 }
 
 export default App;
