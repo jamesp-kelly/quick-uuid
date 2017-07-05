@@ -12,16 +12,19 @@ body {
   margin-top: 30px;
 }
 
-#form-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+form {
+  margin-bottom: 10px;
+}
+
+.uuid-row {
+  margin-bottom: 5px;
 }
 
 input[type="text"] {
   height: 40px;
   font-size: 20px;
-  text-align: right;
+  text-align: center;
+  background-color: #eeeeee;
 }
 
 input.uuid-result {

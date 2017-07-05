@@ -6,7 +6,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      uuids: [v4()]
+      uuids: [v4(), v4(), v4(), v4(), v4()]
     };
 
     this.textInputs = [];
@@ -25,7 +25,6 @@ class App extends Component {
     if (e.target.value < this.state.uuids.length) {
       this.setState((state) => {
         let reduceBy = state.uuids.length - targetValue;
-        //reduceBy = reduceBy <= state.uuids.length ? reduceBy : state.uuids.length; //???
         return {
           uuids: state.uuids.slice(0, -reduceBy)
         };
@@ -33,7 +32,6 @@ class App extends Component {
     } else {
       this.setState((state) => {
         let increaseBy = targetValue - state.uuids.length;
-        //increaseBy = (increaseBy + state.uuids.length >= 10) ? 10 - state.uuids.length : increaseBy; //???
         const tempArr = Array(increaseBy).fill('');
         return {
           uuids: [
@@ -52,35 +50,104 @@ class App extends Component {
       }
     });
   }
-  
+
   render() {
     return (
-      <div id="form-wrapper">
-         <div>
-          <input 
-            className="uuid-num" 
-            type="number"
-            min="0"
-            max="25"
-            value={this.state.uuids.length}
-            onChange={this.numChanged} 
-          />
-          <button onClick={this.handleRefresh}>refresh</button>
+      <div className="container">
+        <div className="jumbotron">
+          <h1 className="display-4">Quick UUID</h1>
+          <p className="lead">generates V4 UUIDs using <a target="_blank" href='https://www.npmjs.com/package/uuid'>uuid</a></p>
         </div>
 
-        {
-          this.state.uuids.map((uuid, index) => {
-            return <input 
-              type="text" 
-              key={uuid}
-              className="uuid-result"
-              value={uuid}
-              spellCheck="false"
-              readOnly="true"
-              ref={(input) => {this.textInputs[index] = input; }}
-              onClick={() => { this.selectInput(index) }}  />
-          })
-        }
+        <form className="form-inline" onSubmit={(e) => e.preventDefault()}>
+          <div className="form-group">
+            <input 
+              className="uuid-num form-control col-2" 
+              type="number"
+              min="1"
+              max="25"
+              value={this.state.uuids.length}
+              onChange={this.numChanged} 
+            />
+            <button 
+              onClick={this.handleRefresh}
+              className="btn btn-default">
+              <i className="fa fa-refresh" aria-hidden="true"></i>
+            </button>
+          </div>
+        </form>
+
+        <div>
+          {
+            this.state.uuids.map((uuid, index) => {
+              return (
+                <div className="uuid-row">
+                  <input 
+                    type="text" 
+                    key={uuid}
+                    className="uuid-result"
+                    value={uuid}
+                    spellCheck="false"
+                    readOnly="true"
+                    ref={(input) => {this.textInputs[index] = input; }}
+                    onClick={() => { this.selectInput(index) }}  />
+                </div>
+              ); 
+            })
+          }
+        </div>
+
+      </div>
+    )
+  }
+  
+  rendedr() {
+    return (
+      <div>
+         <div className="header">
+          <div className="jumbotron">
+            <div className="container">
+              <h1>Quick UUID</h1>
+            </div>
+          </div>
+          <form className="form-inline" onSubmit={(e) => e.preventDefault()}>
+            <div className="form-group">
+              <input 
+                className="uuid-num form-control col-2" 
+                type="number"
+                min="1"
+                max="25"
+                value={this.state.uuids.length}
+                onChange={this.numChanged} 
+              />
+              <button 
+                onClick={this.handleRefresh}
+                className="btn btn-default">
+                <i className="fa fa-refresh" aria-hidden="true"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div className="book-list container">
+          {
+            this.state.uuids.map((uuid, index) => {
+              return (
+                <div className>
+                  <input 
+                    type="text" 
+                    key={uuid}
+                    className="uuid-result"
+                    value={uuid}
+                    spellCheck="false"
+                    readOnly="true"
+                    ref={(input) => {this.textInputs[index] = input; }}
+                    onClick={() => { this.selectInput(index) }}  />
+                </div>
+              );
+            })
+          }
+        </div>
       </div>
     )
   }
